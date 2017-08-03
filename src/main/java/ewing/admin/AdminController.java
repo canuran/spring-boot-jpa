@@ -30,7 +30,7 @@ public class AdminController {
 
     @ApiOperation("添加管理员")
     @PostMapping("addAdmin")
-    public Result<Admin> addAdmin(Admin admin) {
+    public Result<Admin> addAdmin(@RequestBody Admin admin) {
         return new Result<>(adminService.addAdmin(admin));
     }
 

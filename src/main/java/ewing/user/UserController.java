@@ -30,8 +30,15 @@ public class UserController {
 
     @ApiOperation("添加用户")
     @PostMapping("addUser")
-    public Result<User> addUser(User user) {
+    public Result<User> addUser(@RequestBody User user) {
         return new Result<>(userService.addUser(user));
+    }
+
+    @ApiOperation("更新用户")
+    @PostMapping("updateUser")
+    public Result updateUser(@RequestBody User user) {
+        userService.updateUser(user);
+        return new Result();
     }
 
     @ApiOperation("根据ID获取用户")
