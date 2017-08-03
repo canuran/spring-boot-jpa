@@ -1,7 +1,5 @@
 package ewing;
 
-import ewing.application.Result;
-import ewing.common.JsonConverter;
 import ewing.entity.User;
 import ewing.user.UserService;
 import org.junit.Before;
@@ -15,13 +13,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
-
-import java.util.Map;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@Transactional
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = BootApp.class)
 public class AdminControllerTests {
@@ -41,10 +39,6 @@ public class AdminControllerTests {
         return userService.addUser(user);
     }
 
-    private void cleanData(User user) {
-        userService.deleteUser(user.getUserId());
-    }
-
     @Before
     public void setUp() throws Exception {
         mvc = MockMvcBuilders.webAppContextSetup(context).build();
@@ -60,11 +54,6 @@ public class AdminControllerTests {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.userId").isNotEmpty())
                 .andReturn();
-
-        String json = result.getResponse().getContentAsString();
-        Result object = JsonConverter.toObject(json, Result.class);
-        Map user = (Map) object.getData();
-        userService.deleteUser((String) user.get("userId"));
     }
 
     @Test
@@ -78,8 +67,6 @@ public class AdminControllerTests {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.name")
                         .value("123"));
-
-        cleanData(user);
     }
 
     @Test
@@ -91,8 +78,6 @@ public class AdminControllerTests {
                 .param("id", user.getUserId())
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
-
-        cleanData(user);
     }
 
 }
