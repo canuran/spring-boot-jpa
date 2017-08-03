@@ -83,7 +83,6 @@ CREATE TABLE `role` (
 -- ----------------------------
 INSERT INTO `role` VALUES ('joke', '笑话管理', '笑话管理', '2017-06-19 17:18:18');
 INSERT INTO `role` VALUES ('news', '新闻管理', '新闻管理', '2017-06-20 10:55:03');
-INSERT INTO `role` VALUES ('test', '测试', '2017-5-21', '2017-07-28 18:11:59');
 INSERT INTO `role` VALUES ('user', '用户管理', '用户管理', '2017-06-19 18:16:56');
 
 -- ----------------------------
