@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>用户管理</title>
+</head>
+<body style="text-align: center">
+<h2>用户管理</h2>
+<form action="#" th:action="@{/addUser}" th:object="${user}" method="post">
+    <div>名称：<input type="text" th:field="*{name}"/>
+    </div>
+    <div>密码：<input type="text" th:field="*{password}"/>
+    </div>
+    <div><input type="submit" value="新增用户"/>
+        <input type="reset" value="清空重置"/>
+    </div>
+</form>
+<table th:if="${users} and ${not users.isEmpty()}" border="0" style="width: 320px; margin:auto">
+    <th>名称</th>
+    <th>日期</th>
+    <th>操作</th>
+    <tr th:each="user, curr : ${users}">
+        <td><span th:text="${user.name}"/></td>
+        <td><span th:text="${#dates.format(user.createTime,'yyyy-MM-dd')}"/></td>
+        <td><a href="#" th:href="@{/deleteUser(userId=${user.userId})}">删除</a></td>
+    </tr>
+</table>
+</body>
+</html>

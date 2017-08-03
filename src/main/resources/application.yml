@@ -1,0 +1,32 @@
+# 服务配置
+server:
+  port: 80
+# Spring配置
+spring:
+  http:
+    multipart: #文件上传大小限制
+      maxFileSize: 1024MB
+      maxRequestSize: 10240MB
+  thymeleaf:
+    cache: false
+  jackson: # Jackson配置
+    timeZone: GMT+8
+    dateFormat: yyyy-MM-dd HH:mm:ss
+  datasource: # 数据库配置
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf8
+    username: test
+    password: test
+  jpa: # JPA数据访问配置
+    database: mysql
+    databasePlatform: org.hibernate.dialect.MySQLDialect
+    generateDdl: false
+    properties:
+      hibernate:
+        default_batch_fetch_size: 10
+        max_fetch_depth: 1
+        bytecode.use_reflection_optimizer: true
+        hbm2ddl.auto: validate # 当有实体修改后使用update同步到数据库
+        generate_statistics: false
+        show_sql: true
+        format_sql: true
