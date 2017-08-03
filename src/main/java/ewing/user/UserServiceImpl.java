@@ -46,8 +46,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Cacheable(unless = "#result==null")
-    public User getUser(String id) {
-        return userDao.findOne(id);
+    public User getUser(String userId) {
+        return userDao.findOne(userId);
     }
 
     @Override
@@ -64,8 +64,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @CacheEvict
-    public void deleteUser(String id) {
-        userDao.delete(id);
+    public void deleteUser(String userId) {
+        userDao.delete(userId);
     }
 
     @Override

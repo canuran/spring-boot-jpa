@@ -11,11 +11,11 @@ public interface UserService {
 
     User addUser(User user);
 
-    User getUser(String id);
+    User getUser(String userId);
 
     List<User> findUsers(String userName, String companyName);
 
-    void deleteUser(String id);
+    void deleteUser(String userId);
 
     void clearUsers();
 

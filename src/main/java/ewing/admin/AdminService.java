@@ -11,11 +11,11 @@ public interface AdminService {
 
     Admin addAdmin(Admin admin);
 
-    Admin getAdmin(String id);
+    Admin getAdmin(String adminId);
 
     List<Admin> findAdmins(String adminName, String roleName);
 
-    void deleteAdmin(String id);
+    void deleteAdmin(String adminId);
 
     void clearAdmins();
 }
