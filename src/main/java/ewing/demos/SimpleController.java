@@ -1,4 +1,4 @@
-package ewing.controller;
+package ewing.demos;
 
 import ewing.application.RequestMessage;
 import org.springframework.stereotype.Controller;

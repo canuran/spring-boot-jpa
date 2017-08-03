@@ -1,4 +1,4 @@
-package ewing.controller;
+package ewing.demos;
 
 import ewing.common.JWTUtils;
 import org.springframework.web.bind.annotation.PostMapping;

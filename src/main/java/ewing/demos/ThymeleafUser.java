@@ -1,4 +1,4 @@
-package ewing.controller;
+package ewing.demos;
 
 import ewing.entity.User;
 import ewing.user.UserService;
