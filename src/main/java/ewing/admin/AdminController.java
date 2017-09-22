@@ -30,20 +30,20 @@ public class AdminController {
 
     @ApiOperation("添加管理员")
     @PostMapping("addAdmin")
-    public Result<Admin> addAdmin(@RequestBody Admin admin) {
+    public Result<Admin> addAdmin(Admin admin) {
         return new Result<>(adminService.addAdmin(admin));
     }
 
     @ApiOperation("根据ID获取管理员")
     @GetMapping("getAdmin")
-    public Result<Admin> getAdmin(@RequestParam String id) {
-        return new Result<>(adminService.getAdmin(id));
+    public Result<Admin> getAdmin(@RequestParam String adminId) {
+        return new Result<>(adminService.getAdmin(adminId));
     }
 
     @ApiOperation("根据ID删除管理员")
     @GetMapping("deleteAdmin")
-    public Result deleteAdmin(@RequestParam String id) {
-        adminService.deleteAdmin(id);
+    public Result deleteAdmin(@RequestParam String adminId) {
+        adminService.deleteAdmin(adminId);
         return new Result();
     }
 

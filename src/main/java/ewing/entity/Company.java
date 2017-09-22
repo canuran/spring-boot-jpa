@@ -2,6 +2,7 @@ package ewing.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import ewing.common.GlobalIdWorker;
+import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Entity;
@@ -28,6 +29,7 @@ public class Company {
     private Date createTime;
 
     @JsonIgnore
+    @ApiModelProperty(hidden = true)
     @OneToMany(mappedBy = "company")
     private Set<User> users;
 

@@ -10,7 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Transactional
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = BootApp.class)
-public class AdminControllerTests {
+public class UserControllerTests {
 
     @Autowired
     private WebApplicationContext context;
@@ -46,14 +45,13 @@ public class AdminControllerTests {
 
     @Test
     public void saveTest() throws Exception {
-        MvcResult result = mvc.perform(MockMvcRequestBuilders
+        mvc.perform(MockMvcRequestBuilders
                 .post("/user/addUser")
                 .param("name", "小凡")
                 .param("password", "碧瑶")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.userId").isNotEmpty())
-                .andReturn();
+                .andExpect(jsonPath("$.data.userId").isNotEmpty());
     }
 
     @Test
@@ -62,7 +60,7 @@ public class AdminControllerTests {
 
         mvc.perform(MockMvcRequestBuilders
                 .get("/user/getUser")
-                .param("id", user.getUserId())
+                .param("userId", user.getUserId())
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.name")
@@ -75,7 +73,7 @@ public class AdminControllerTests {
 
         mvc.perform(MockMvcRequestBuilders
                 .get("/user/deleteUser")
-                .param("id", user.getUserId())
+                .param("userId", user.getUserId())
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }

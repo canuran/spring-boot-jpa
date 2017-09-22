@@ -2,6 +2,7 @@ package ewing.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import ewing.common.GlobalIdWorker;
+import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -30,11 +31,12 @@ public class Admin {
 
     private Date createTime;
 
+    @JsonIgnore
+    @ApiModelProperty(hidden = true)
     @ManyToMany
     @JoinTable(name = "admin_role",
             joinColumns = @JoinColumn(name = "admin_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    @JsonIgnore
     private Set<Role> roles;
 
     public String getAdminId() {

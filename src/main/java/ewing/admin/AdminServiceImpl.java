@@ -41,8 +41,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Admin getAdmin(String id) {
-        return adminDao.findOne(id);
+    public Admin getAdmin(String adminId) {
+        return adminDao.findOne(adminId);
     }
 
     @Override
@@ -58,8 +58,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void deleteAdmin(String id) {
-        adminDao.delete(id);
+    public void deleteAdmin(String adminId) {
+        adminDao.delete(adminId);
     }
 
     @Override

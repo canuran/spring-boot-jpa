@@ -30,27 +30,27 @@ public class UserController {
 
     @ApiOperation("添加用户")
     @PostMapping("addUser")
-    public Result<User> addUser(@RequestBody User user) {
+    public Result<User> addUser(User user) {
         return new Result<>(userService.addUser(user));
     }
 
     @ApiOperation("更新用户")
     @PostMapping("updateUser")
-    public Result updateUser(@RequestBody User user) {
+    public Result updateUser(User user) {
         userService.updateUser(user);
         return new Result();
     }
 
     @ApiOperation("根据ID获取用户")
     @GetMapping("getUser")
-    public Result<User> getUser(@RequestParam String id) {
-        return new Result<>(userService.getUser(id));
+    public Result<User> getUser(@RequestParam String userId) {
+        return new Result<>(userService.getUser(userId));
     }
 
     @ApiOperation("根据ID删除用户")
     @GetMapping("deleteUser")
-    public Result deleteUser(@RequestParam String id) {
-        userService.deleteUser(id);
+    public Result deleteUser(@RequestParam String userId) {
+        userService.deleteUser(userId);
         return new Result();
     }
 
