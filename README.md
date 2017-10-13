@@ -19,4 +19,4 @@ Spring Boot DevTools：动态加载类等，实时生效，方便编辑调试。
 Spring Test：使用MockMvc进行测试用例编写。  
 
 ##### 注：修改 application.yml 中的数据库连接信息，执行 src/main/resources/firstdata.sql 文件。
-##### 注：先执行 maven compile（生成 QUser 等对象）后再运行，QUser 等对象放在 target 下就可以了。
+##### 注：先执行 maven compile（生成 QUser 等对象）后再运行，QUser 等对象默认在 target 下不用动它。
