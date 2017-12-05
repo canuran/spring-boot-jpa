@@ -1,64 +1,62 @@
 package ewing.user;
 
-import ewing.application.Result;
+import ewing.application.ResultMessage;
+import ewing.application.paging.Pager;
+import ewing.application.paging.Pages;
 import ewing.entity.User;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 用户控制器。
  **/
 @RestController
-@RequestMapping("user")
+@RequestMapping("/user")
 @Api(description = "用户模块的方法")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @ApiOperation("查找用户")
-    @PostMapping("findUser")
-    public Result<List<User>> findUsers(
-            @RequestParam(required = false) String userName,
-            @RequestParam(required = false) String companyName) {
-        return new Result<>(userService.findUsers(userName, companyName));
+    @PostMapping("/findUser")
+    @ApiOperation("分页查找用户")
+    public ResultMessage<Pages<User>> findUsers(Pager pager,
+                                                String name, String roleName) {
+        return new ResultMessage<>(userService.findUsers(pager, name, roleName));
     }
 
+    @PostMapping("/addUser")
     @ApiOperation("添加用户")
-    @PostMapping("addUser")
-    public Result<User> addUser(User user) {
-        return new Result<>(userService.addUser(user));
+    @ApiImplicitParams(@ApiImplicitParam(name = "birthday", paramType = "form", dataType = "string"))
+    public ResultMessage<User> addUser(User user) {
+        return new ResultMessage<>(userService.addUser(user));
     }
 
-    @ApiOperation("更新用户")
-    @PostMapping("updateUser")
-    public Result updateUser(User user) {
-        userService.updateUser(user);
-        return new Result();
-    }
-
+    @GetMapping("/getUser")
     @ApiOperation("根据ID获取用户")
-    @GetMapping("getUser")
-    public Result<User> getUser(@RequestParam String userId) {
-        return new Result<>(userService.getUser(userId));
+    public ResultMessage<User> getUser(Long userId) {
+        return new ResultMessage<>(userService.getUser(userId));
     }
 
+    @PostMapping("/updateUser")
+    @ApiOperation("更新用户")
+    public ResultMessage updateUser(User user) {
+        userService.updateUser(user);
+        return new ResultMessage();
+    }
+
+    @GetMapping("/deleteUser")
     @ApiOperation("根据ID删除用户")
-    @GetMapping("deleteUser")
-    public Result deleteUser(@RequestParam String userId) {
+    public ResultMessage deleteUser(Long userId) {
         userService.deleteUser(userId);
-        return new Result();
-    }
-
-    @ApiOperation("删除所有用户")
-    @GetMapping("clearUsers")
-    public Result clearUsers() {
-        userService.clearUsers();
-        return new Result();
+        return new ResultMessage();
     }
 
 }

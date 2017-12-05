@@ -1,81 +1,96 @@
 package ewing.user;
 
-import com.querydsl.jpa.impl.JPAQuery;
-import com.querydsl.jpa.impl.JPAQueryFactory;
-import ewing.application.AppException;
-import ewing.entity.QCompany;
+import ewing.application.AppAsserts;
+import ewing.application.paging.Pager;
+import ewing.application.paging.Pages;
 import ewing.entity.QUser;
 import ewing.entity.User;
+import ewing.security.RoleAsAuthority;
+import ewing.security.SecurityUser;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
+import java.sql.Timestamp;
+import java.util.Collections;
 import java.util.List;
 
 /**
  * 用户服务实现。
  **/
 @Service
-@CacheConfig(cacheNames = "UserCache")
+@Transactional(rollbackFor = Throwable.class)
 public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDao userDao;
 
-    @Autowired
-    private JPAQueryFactory queryFactory;
-
-    private QUser qUser = QUser.user;
-    private QCompany qCompany = QCompany.company;
-
     @Override
     public User addUser(User user) {
-        if (!StringUtils.hasText(user.getName()))
-            throw new AppException("用户名不能为空！");
-        if (userDao.findFirstByName(user.getName()) != null)
-            throw new AppException("用户名已被使用！");
-        if (!StringUtils.hasText(user.getPassword()))
-            throw new AppException("密码不能为空！");
-        user.setCreateTime(new Date());
+        AppAsserts.notNull(user, "用户不能为空！");
+        AppAsserts.hasText(user.getName(), "用户名不能为空！");
+        AppAsserts.isTrue(userDao.count(
+                QUser.user.name.eq(user.getName())) < 1,
+                "用户名已被使用！");
+        AppAsserts.hasText(user.getPassword(), "密码不能为空！");
+
+        if (user.getBirthday() == null) {
+            user.setBirthday(new Timestamp(System.currentTimeMillis()));
+        }
         return userDao.save(user);
     }
 
     @Override
-    @Cacheable(unless = "#result==null")
-    public User getUser(String userId) {
-        return userDao.findOne(userId);
+    @Cacheable(cacheNames = "UserCache", key = "#userId", unless = "#result==null")
+    public User getUser(Long userId) {
+        AppAsserts.notNull(userId, "用户ID不能为空！");
+        return userDao.getOne(userId);
     }
 
     @Override
-    public List<User> findUsers(String userName, String companyName) {
-        JPAQuery<User> query = queryFactory.selectDistinct(qUser)
-                .from(qUser)
-                .leftJoin(qUser.company, qCompany);
-        if (StringUtils.hasText(userName))
-            query.where(qUser.name.contains(userName));
-        if (StringUtils.hasText(companyName))
-            query.where(qCompany.name.contains(companyName));
-        return query.fetch();
+    @CacheEvict(cacheNames = "UserCache", key = "#user.userId")
+    public User updateUser(User user) {
+        AppAsserts.notNull(user, "用户不能为空！");
+        AppAsserts.notNull(user.getId(), "用户ID不能为空！");
+        return userDao.save(user);
     }
 
     @Override
-    @CacheEvict
-    public void deleteUser(String userId) {
+    public Pages<User> findUsers(Pager pager, String name, String roleName) {
+        Page<User> page = userDao.findAll(pager.pageable());
+        return new Pages<>(page);
+    }
+
+    @Override
+    @CacheEvict(cacheNames = "UserCache", key = "#userId")
+    public void deleteUser(Long userId) {
+        AppAsserts.notNull(userId, "用户ID不能为空！");
         userDao.delete(userId);
     }
 
     @Override
-    public void clearUsers() {
-        userDao.deleteAll();
+    public SecurityUser getByName(String name) {
+        AppAsserts.hasText(name, "用户名不能为空！");
+        User user = userDao.findFirstByName(name);
+        SecurityUser securityUser = new SecurityUser();
+        BeanUtils.copyProperties(user, securityUser);
+        return securityUser;
     }
 
     @Override
-    public void updateUser(User user) {
-        userDao.save(user);
+    public List<RoleAsAuthority> getUserRoles(Long userId) {
+        AppAsserts.notNull(userId, "用户ID不能为空！");
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<PermissionTree> getUserPermissions(Long userId) {
+        AppAsserts.notNull(userId, "用户ID不能为空！");
+        return Collections.emptyList();
     }
 
 }

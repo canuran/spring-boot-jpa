@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @Transactional
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = BootApp.class)
+@SpringBootTest(classes = StartApp.class)
 public class UserControllerTests {
 
     @Autowired
@@ -60,7 +60,7 @@ public class UserControllerTests {
 
         mvc.perform(MockMvcRequestBuilders
                 .get("/user/getUser")
-                .param("userId", user.getUserId())
+                .param("userId", String.valueOf(user.getId()))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.name")
@@ -73,7 +73,7 @@ public class UserControllerTests {
 
         mvc.perform(MockMvcRequestBuilders
                 .get("/user/deleteUser")
-                .param("userId", user.getUserId())
+                .param("userId", String.valueOf(user.getId()))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }

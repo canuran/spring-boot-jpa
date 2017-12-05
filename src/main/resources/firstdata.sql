@@ -2,105 +2,127 @@
 Target Server Type    : MYSQL
 Target Server Version : 50718
 File Encoding         : 65001
+Date: 2017-11-13 16:37:59
 */
 
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for admin
+-- Table structure for permission
 -- ----------------------------
-DROP TABLE IF EXISTS `admin`;
-CREATE TABLE `admin` (
-  `admin_id` varchar(20) NOT NULL,
-  `name` varchar(64) DEFAULT NULL,
-  `password` varchar(64) DEFAULT NULL,
-  `state` int(11) DEFAULT NULL,
-  `account` varchar(64) DEFAULT NULL,
-  `gender` int(11) DEFAULT NULL,
+DROP TABLE IF EXISTS `permission`;
+CREATE TABLE `permission` (
+  `permission_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `parent_id` bigint(20) DEFAULT NULL,
+  `name` varchar(64) NOT NULL,
+  `code` varchar(64) NOT NULL,
+  `type` varchar(64) DEFAULT NULL,
+  `target` varchar(1024) DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
-  PRIMARY KEY (`admin_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`permission_id`),
+  KEY `permission_parent_id` (`parent_id`),
+  CONSTRAINT `permission_parent_id` FOREIGN KEY (`parent_id`) REFERENCES `permission` (`permission_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of admin
+-- Records of permission
 -- ----------------------------
-INSERT INTO `admin` VALUES ('new_admin', '新管理', 'NEW', '1', 'new', '2', '2017-08-01 18:58:12');
-INSERT INTO `admin` VALUES ('normal_admin', '管理员', '123456', '1', 'admin', '1', '2017-06-22 17:04:56');
-INSERT INTO `admin` VALUES ('super_admin', '总管', 'ABCDEF', '1', 'super', '0', '2017-06-18 11:05:25');
-
--- ----------------------------
--- Table structure for admin_role
--- ----------------------------
-DROP TABLE IF EXISTS `admin_role`;
-CREATE TABLE `admin_role` (
-  `admin_id` varchar(20) NOT NULL,
-  `role_id` varchar(20) NOT NULL,
-  `create_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`admin_id`,`role_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of admin_role
--- ----------------------------
-INSERT INTO `admin_role` VALUES ('normal_admin', 'joke', '2017-07-26 17:37:20');
-INSERT INTO `admin_role` VALUES ('normal_admin', 'news', '2017-07-26 17:37:36');
-INSERT INTO `admin_role` VALUES ('super_admin', 'joke', '2017-07-26 17:38:38');
-INSERT INTO `admin_role` VALUES ('super_admin', 'news', '2017-07-26 17:39:33');
-INSERT INTO `admin_role` VALUES ('super_admin', 'user', '2017-07-26 17:38:26');
-
--- ----------------------------
--- Table structure for company
--- ----------------------------
-DROP TABLE IF EXISTS `company`;
-CREATE TABLE `company` (
-  `company_id` varchar(20) NOT NULL,
-  `name` varchar(128) DEFAULT NULL,
-  `address` varchar(255) DEFAULT NULL,
-  `create_time` datetime DEFAULT NOW(),
-  PRIMARY KEY (`company_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of company
--- ----------------------------
-INSERT INTO `company` VALUES ('alibaba', '阿里巴巴', '杭州', '1995-08-03 15:42:01');
-INSERT INTO `company` VALUES ('tencent', '腾讯', '深圳', '2000-06-01 15:40:45');
+INSERT INTO `permission` VALUES ('1', null, '新增用户', 'USER_ADD', '1', null, '2017-08-24 12:09:10');
+INSERT INTO `permission` VALUES ('2', null, '删除用户', 'USER_DELETE', '1', null, '2017-08-24 12:09:52');
+INSERT INTO `permission` VALUES ('3', null, '查看用户', 'USER_VIEW', '1', null, '2017-08-24 12:10:24');
 
 -- ----------------------------
 -- Table structure for role
 -- ----------------------------
 DROP TABLE IF EXISTS `role`;
 CREATE TABLE `role` (
-  `role_id` varchar(20) NOT NULL,
+  `role_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) DEFAULT NULL,
-  `description` varchar(255) DEFAULT NULL,
+  `code` varchar(64) NOT NULL,
   `create_time` datetime DEFAULT NULL,
   PRIMARY KEY (`role_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of role
 -- ----------------------------
-INSERT INTO `role` VALUES ('joke', '笑话管理', '笑话管理', '2017-06-19 17:18:18');
-INSERT INTO `role` VALUES ('news', '新闻管理', '新闻管理', '2017-06-20 10:55:03');
-INSERT INTO `role` VALUES ('user', '用户管理', '用户管理', '2017-06-19 18:16:56');
+INSERT INTO `role` VALUES ('1', '用户管理', 'ROLE_USER', '2017-08-24 12:07:53');
+
+-- ----------------------------
+-- Table structure for role_permission
+-- ----------------------------
+DROP TABLE IF EXISTS `role_permission`;
+CREATE TABLE `role_permission` (
+  `role_id` bigint(20) NOT NULL,
+  `permission_id` bigint(20) NOT NULL,
+  `create_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`role_id`,`permission_id`),
+  KEY `FK_permission_role` (`permission_id`),
+  CONSTRAINT `FK_permission_role` FOREIGN KEY (`permission_id`) REFERENCES `permission` (`permission_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_role_permission` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of role_permission
+-- ----------------------------
+INSERT INTO `role_permission` VALUES ('1', '1', '2017-08-24 12:11:37');
+INSERT INTO `role_permission` VALUES ('1', '2', '2017-08-24 12:11:43');
+INSERT INTO `role_permission` VALUES ('1', '3', '2017-08-24 12:11:50');
 
 -- ----------------------------
 -- Table structure for user
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
-  `user_id` varchar(20) NOT NULL,
-  `name` varchar(32) DEFAULT NULL,
-  `password` varchar(32) DEFAULT NULL,
-  `gender` int(11) DEFAULT NULL,
-  `birthday` datetime DEFAULT NULL,
+  `user_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `username` varchar(64) NOT NULL,
+  `password` varchar(32) NOT NULL,
+  `birthday` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `create_time` datetime DEFAULT NULL,
-  `company_id` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('ewing', '元宝', 'yb', '1', '2000-01-01 00:00:00', '2017-07-27 18:19:35', 'tencent');
+INSERT INTO `user` VALUES ('1', '元宝', 'yb', '2000-02-10 12:22:30', '2017-08-23 18:43:52');
+INSERT INTO `user` VALUES ('2', '露娜', 'ln', '2002-05-20 12:22:46', '2017-08-24 12:06:02');
+
+-- ----------------------------
+-- Table structure for user_permission
+-- ----------------------------
+DROP TABLE IF EXISTS `user_permission`;
+CREATE TABLE `user_permission` (
+  `user_id` bigint(20) NOT NULL,
+  `permission_id` bigint(20) NOT NULL,
+  `create_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`user_id`,`permission_id`),
+  KEY `FK_permission_user` (`permission_id`),
+  CONSTRAINT `FK_permission_user` FOREIGN KEY (`permission_id`) REFERENCES `permission` (`permission_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_user_permission` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of user_permission
+-- ----------------------------
+INSERT INTO `user_permission` VALUES ('2', '3', '2017-08-24 12:12:15');
+
+-- ----------------------------
+-- Table structure for user_role
+-- ----------------------------
+DROP TABLE IF EXISTS `user_role`;
+CREATE TABLE `user_role` (
+  `role_id` bigint(20) NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `create_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`role_id`,`user_id`),
+  KEY `FK_role_user` (`role_id`),
+  KEY `FK_user_role` (`user_id`),
+  CONSTRAINT `FK_role_user` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_user_role` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of user_role
+-- ----------------------------
+INSERT INTO `user_role` VALUES ('1', '1', '2017-08-24 12:11:17');

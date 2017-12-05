@@ -1,52 +1,24 @@
 package ewing.entity;
 
-import ewing.common.GlobalIdWorker;
-import io.swagger.annotations.ApiModelProperty;
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Timestamp;
+import java.util.Collection;
 
 /**
- * 用户实体类。
- **/
+ * 实体类。
+ */
 @Entity
 public class User {
-    @Id
-    @GenericGenerator(name = "generator", strategy = GlobalIdWorker.REFRENCE)
-    @GeneratedValue(generator = "generator")
-    private String userId;
-
-    private String name;
-
     private String password;
+    private Timestamp birthday;
+    private Timestamp createTime;
+    private Long id;
+    private String name;
+    private Collection<UserPermission> userPermissionsById;
+    private Collection<UserRole> userRolesById;
 
-    private Integer gender;
-
-    private Date birthday;
-
-    private Date createTime;
-
-    @ManyToOne
-    @JoinColumn(name = "company_id")
-    private Company company;
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
+    @Basic
+    @Column(name = "password")
     public String getPassword() {
         return password;
     }
@@ -55,35 +27,87 @@ public class User {
         this.password = password;
     }
 
-    public Integer getGender() {
-        return gender;
-    }
-
-    public void setGender(Integer gender) {
-        this.gender = gender;
-    }
-
-    public Date getBirthday() {
+    @Basic
+    @Column(name = "birthday")
+    public Timestamp getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(Timestamp birthday) {
         this.birthday = birthday;
     }
 
-    public Date getCreateTime() {
+    @Basic
+    @Column(name = "create_time")
+    public Timestamp getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
     }
 
-    public Company getCompany() {
-        return company;
+    @Id
+    @Column(name = "id")
+    public Long getId() {
+        return id;
     }
 
-    public void setCompany(Company company) {
-        this.company = company;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Basic
+    @Column(name = "name")
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (password != null ? !password.equals(user.password) : user.password != null) return false;
+        if (birthday != null ? !birthday.equals(user.birthday) : user.birthday != null) return false;
+        if (createTime != null ? !createTime.equals(user.createTime) : user.createTime != null) return false;
+        if (id != null ? !id.equals(user.id) : user.id != null) return false;
+        if (name != null ? !name.equals(user.name) : user.name != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = password != null ? password.hashCode() : 0;
+        result = 31 * result + (birthday != null ? birthday.hashCode() : 0);
+        result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
+        result = 31 * result + (id != null ? id.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        return result;
+    }
+
+    @OneToMany(mappedBy = "userByUserId")
+    public Collection<UserPermission> getUserPermissionsById() {
+        return userPermissionsById;
+    }
+
+    public void setUserPermissionsById(Collection<UserPermission> userPermissionsById) {
+        this.userPermissionsById = userPermissionsById;
+    }
+
+    @OneToMany(mappedBy = "userByUserId")
+    public Collection<UserRole> getUserRolesById() {
+        return userRolesById;
+    }
+
+    public void setUserRolesById(Collection<UserRole> userRolesById) {
+        this.userRolesById = userRolesById;
     }
 }

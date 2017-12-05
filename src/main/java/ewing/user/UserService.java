@@ -1,6 +1,10 @@
 package ewing.user;
 
+import ewing.application.paging.Pager;
+import ewing.application.paging.Pages;
 import ewing.entity.User;
+import ewing.security.RoleAsAuthority;
+import ewing.security.SecurityUser;
 
 import java.util.List;
 
@@ -11,13 +15,17 @@ public interface UserService {
 
     User addUser(User user);
 
-    User getUser(String userId);
+    User getUser(Long userId);
 
-    List<User> findUsers(String userName, String companyName);
+    User updateUser(User user);
 
-    void deleteUser(String userId);
+    Pages<User> findUsers(Pager pager, String name, String roleName);
 
-    void clearUsers();
+    void deleteUser(Long userId);
 
-    void updateUser(User user);
+    SecurityUser getByName(String name);
+
+    List<RoleAsAuthority> getUserRoles(Long userId);
+
+    List<PermissionTree> getUserPermissions(Long userId);
 }

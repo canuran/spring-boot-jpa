@@ -1,46 +1,23 @@
 package ewing.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import ewing.common.GlobalIdWorker;
-import io.swagger.annotations.ApiModelProperty;
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
-import java.util.Date;
-import java.util.Set;
+import java.sql.Timestamp;
+import java.util.Collection;
 
 /**
- * 角色实体。
+ * 实体类。
  */
 @Entity
 public class Role {
-    @Id
-    @GenericGenerator(name = "generator", strategy = GlobalIdWorker.REFRENCE)
-    @GeneratedValue(generator = "generator")
-    private String roleId;
-
     private String name;
+    private String code;
+    private Timestamp createTime;
+    private Long id;
+    private Collection<RolePermission> rolePermissionsById;
+    private Collection<UserRole> userRolesById;
 
-    private String description;
-
-    private Date createTime;
-
-    @JsonIgnore
-    @ApiModelProperty(hidden = true)
-    @ManyToMany
-    @JoinTable(name = "admin_role",
-            joinColumns = @JoinColumn(name = "role_id"),
-            inverseJoinColumns = @JoinColumn(name = "admin_id"))
-    private Set<Admin> admins;
-
-    public String getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(String roleId) {
-        this.roleId = roleId;
-    }
-
+    @Basic
+    @Column(name = "name")
     public String getName() {
         return name;
     }
@@ -49,27 +26,75 @@ public class Role {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    @Basic
+    @Column(name = "code")
+    public String getCode() {
+        return code;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    public Date getCreateTime() {
+    @Basic
+    @Column(name = "create_time")
+    public Timestamp getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
     }
 
-    public Set<Admin> getAdmins() {
-        return admins;
+    @Id
+    @Column(name = "id")
+    public Long getId() {
+        return id;
     }
 
-    public void setAdmins(Set<Admin> admins) {
-        this.admins = admins;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Role role = (Role) o;
+
+        if (name != null ? !name.equals(role.name) : role.name != null) return false;
+        if (code != null ? !code.equals(role.code) : role.code != null) return false;
+        if (createTime != null ? !createTime.equals(role.createTime) : role.createTime != null) return false;
+        if (id != null ? !id.equals(role.id) : role.id != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (code != null ? code.hashCode() : 0);
+        result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
+        result = 31 * result + (id != null ? id.hashCode() : 0);
+        return result;
+    }
+
+    @OneToMany(mappedBy = "roleByRoleId")
+    public Collection<RolePermission> getRolePermissionsById() {
+        return rolePermissionsById;
+    }
+
+    public void setRolePermissionsById(Collection<RolePermission> rolePermissionsById) {
+        this.rolePermissionsById = rolePermissionsById;
+    }
+
+    @OneToMany(mappedBy = "roleByRoleId")
+    public Collection<UserRole> getUserRolesById() {
+        return userRolesById;
+    }
+
+    public void setUserRolesById(Collection<UserRole> userRolesById) {
+        this.userRolesById = userRolesById;
     }
 }

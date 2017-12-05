@@ -11,7 +11,7 @@
             maxElementsInMemory="100000"
             maxElementsOnDisk="0"
             timeToIdleSeconds="0"
-            timeToLiveSeconds="86400"
+            timeToLiveSeconds="0"
             diskSpoolBufferSizeMB="50"
             diskExpiryThreadIntervalSeconds="120"
             memoryStoreEvictionPolicy="LFU"/>
@@ -23,7 +23,7 @@
            maxElementsInMemory="100000"
            maxElementsOnDisk="0"
            timeToIdleSeconds="0"
-           timeToLiveSeconds="86400"
+           timeToLiveSeconds="0"
            diskExpiryThreadIntervalSeconds="120"
            memoryStoreEvictionPolicy="LFU"/>
 </ehcache>
