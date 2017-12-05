@@ -16,12 +16,7 @@ public class Pager {
     }
 
     public Pager(int page, int limit) {
-        this.page = page;
-        this.limit = limit;
-    }
-
-    public Pager(int page, int limit, boolean count) {
-        this.page = page;
+        this.setPage(page);
         this.limit = limit;
     }
 
@@ -30,7 +25,11 @@ public class Pager {
     }
 
     public void setPage(int page) {
-        this.page = page;
+        this.page = page > 0 ? page : 1;
+    }
+
+    public int getOffset() {
+        return page * limit - limit;
     }
 
     public int getLimit() {
