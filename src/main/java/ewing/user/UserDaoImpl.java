@@ -55,18 +55,18 @@ public class UserDaoImpl implements UserDao {
     public List<Permission> findUserPermissions(Long userId) {
         List<Permission> userPermissions = queryFactory.selectDistinct(
                 QueryHelper.allToBean(Permission.class, qPermission))
-                .from(qUser)
-                .leftJoin(qUser.userPermissions, qUserPermission)
-                .leftJoin(qUserPermission.permission, qPermission)
+                .from(qPermission)
+                .innerJoin(qPermission.userPermissions, qUserPermission)
+                .innerJoin(qUserPermission.user, qUser)
                 .where(qUser.id.eq(userId))
                 .fetch();
         List<Permission> rolePermissions = queryFactory.selectDistinct(
                 QueryHelper.allToBean(Permission.class, qPermission))
-                .from(qUser)
-                .leftJoin(qUser.userRoles, qUserRole)
-                .leftJoin(qUserRole.role, qRole)
-                .leftJoin(qRole.rolePermissions, qRolePermission)
-                .leftJoin(qRolePermission.permission, qPermission)
+                .from(qPermission)
+                .innerJoin(qPermission.rolePermissions, qRolePermission)
+                .innerJoin(qRolePermission.role, qRole)
+                .innerJoin(qRole.userRoles, qUserRole)
+                .innerJoin(qUserRole.user, qUser)
                 .where(qUser.id.eq(userId))
                 .fetch();
         userPermissions.removeAll(rolePermissions);

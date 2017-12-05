@@ -27,7 +27,7 @@ public class ThymeleafUser {
     public ModelAndView index() {
         ModelAndView modelAndView = new ModelAndView("user");
         modelAndView.addObject("user", new User());
-        Pager pager = new Pager(0, 100);
+        Pager pager = new Pager(1, 100);
         modelAndView.addObject("users", userService.findUsers(
                 pager, null, null).getContent());
         return modelAndView;
