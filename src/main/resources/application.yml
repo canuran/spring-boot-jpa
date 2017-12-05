@@ -9,6 +9,9 @@ sslserver:
   keyStorePassword: changeit
   keyStoreType: JKS
 
+# 启用Swagger
+swagger.enable: true
+
 # Spring配置
 spring:
   http:
