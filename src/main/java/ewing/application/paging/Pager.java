@@ -9,30 +9,28 @@ import org.springframework.data.domain.Pageable;
  * @author Ewing
  **/
 public class Pager {
-    private int offset = 0;
+    private int page = 1;
     private int limit = 100;
-    private boolean count = true;
 
     public Pager() {
     }
 
-    public Pager(int offset, int limit) {
-        this.offset = offset;
+    public Pager(int page, int limit) {
+        this.page = page;
         this.limit = limit;
     }
 
-    public Pager(int offset, int limit, boolean count) {
-        this.offset = offset;
+    public Pager(int page, int limit, boolean count) {
+        this.page = page;
         this.limit = limit;
-        this.count = count;
     }
 
-    public int getOffset() {
-        return offset;
+    public int getPage() {
+        return page;
     }
 
-    public void setOffset(int offset) {
-        this.offset = offset;
+    public void setPage(int page) {
+        this.page = page;
     }
 
     public int getLimit() {
@@ -43,15 +41,7 @@ public class Pager {
         this.limit = limit;
     }
 
-    public boolean isCount() {
-        return count;
-    }
-
-    public void setCount(boolean count) {
-        this.count = count;
-    }
-
     public Pageable pageable() {
-        return new PageRequest(offset / limit, limit);
+        return new PageRequest(page > 0 ? page - 1 : 0, limit);
     }
 }
