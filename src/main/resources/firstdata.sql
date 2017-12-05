@@ -20,8 +20,8 @@ CREATE TABLE `permission` (
   `target` varchar(1024) DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   PRIMARY KEY (`permission_id`),
-  KEY `permission_parent_id` (`parent_id`),
-  CONSTRAINT `permission_parent_id` FOREIGN KEY (`parent_id`) REFERENCES `permission` (`permission_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `fk_permission_parent_id` (`parent_id`),
+  CONSTRAINT `fk_permission_parent_id` FOREIGN KEY (`parent_id`) REFERENCES `permission` (`permission_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -57,9 +57,10 @@ CREATE TABLE `role_permission` (
   `permission_id` bigint(20) NOT NULL,
   `create_time` datetime DEFAULT NULL,
   PRIMARY KEY (`role_id`,`permission_id`),
-  KEY `FK_permission_role` (`permission_id`),
-  CONSTRAINT `FK_permission_role` FOREIGN KEY (`permission_id`) REFERENCES `permission` (`permission_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_role_permission` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `fk_permission_role` (`permission_id`),
+  KEY `fk_role_permission` (`role_id`),
+  CONSTRAINT `fk_permission_role` FOREIGN KEY (`permission_id`) REFERENCES `permission` (`permission_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_role_permission` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -97,9 +98,10 @@ CREATE TABLE `user_permission` (
   `permission_id` bigint(20) NOT NULL,
   `create_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`user_id`,`permission_id`),
-  KEY `FK_permission_user` (`permission_id`),
-  CONSTRAINT `FK_permission_user` FOREIGN KEY (`permission_id`) REFERENCES `permission` (`permission_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_user_permission` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `fk_permission_user` (`permission_id`),
+  KEY `fk_user_permission` (`user_id`),
+  CONSTRAINT `fk_permission_user` FOREIGN KEY (`permission_id`) REFERENCES `permission` (`permission_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_user_permission` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -116,10 +118,10 @@ CREATE TABLE `user_role` (
   `user_id` bigint(20) NOT NULL,
   `create_time` datetime DEFAULT NULL,
   PRIMARY KEY (`role_id`,`user_id`),
-  KEY `FK_role_user` (`role_id`),
-  KEY `FK_user_role` (`user_id`),
-  CONSTRAINT `FK_role_user` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_user_role` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `fk_role_user` (`role_id`),
+  KEY `fk_user_role` (`user_id`),
+  CONSTRAINT `fk_role_user` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_user_role` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
