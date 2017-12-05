@@ -36,7 +36,7 @@ public class QueryHelper {
         if (pager == null) {
             query.limit(100).offset(0);
         } else {
-            query.limit(pager.getLimit()).offset(pager.getPage() * pager.getLimit());
+            query.limit(pager.getLimit()).offset(pager.getOffset());
         }
         return new Pages<>(query.fetchCount(), query.fetch());
     }

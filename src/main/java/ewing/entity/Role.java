@@ -47,6 +47,7 @@ public class Role {
     }
 
     @Id
+    @GeneratedValue
     @Column(name = "id")
     public Long getId() {
         return id;

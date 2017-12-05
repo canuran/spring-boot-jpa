@@ -44,6 +44,7 @@ public class Permission implements TreeNode<Permission, Long> {
     }
 
     @Basic
+    @GeneratedValue
     @Column(name = "code")
     public String getCode() {
         return code;
