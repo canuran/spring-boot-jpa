@@ -1,5 +1,7 @@
 package ewing.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Collection;
@@ -81,6 +83,7 @@ public class Role {
         return result;
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "role")
     public Collection<RolePermission> getRolePermissions() {
         return rolePermissions;
@@ -90,6 +93,7 @@ public class Role {
         this.rolePermissions = rolePermissions;
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "role")
     public Collection<UserRole> getUserRoles() {
         return userRoles;

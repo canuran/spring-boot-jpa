@@ -1,5 +1,6 @@
 package ewing.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import ewing.application.common.TreeNode;
 
 import javax.persistence.*;
@@ -143,6 +144,7 @@ public class Permission implements TreeNode<Permission, Long> {
         this.children = children;
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "permission")
     public Collection<RolePermission> getRolePermissions() {
         return rolePermissions;
@@ -152,6 +154,7 @@ public class Permission implements TreeNode<Permission, Long> {
         this.rolePermissions = rolePermissions;
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "permission")
     public Collection<UserPermission> getUserPermissions() {
         return userPermissions;
