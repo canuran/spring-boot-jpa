@@ -58,6 +58,7 @@ public class UserServiceImpl implements UserService {
     public User updateUser(User user) {
         AppAsserts.notNull(user, "用户不能为空！");
         AppAsserts.notNull(user.getId(), "用户ID不能为空！");
+        user.setCreateTime(new Timestamp(System.currentTimeMillis()));
         return userRepository.save(user);
     }
 
