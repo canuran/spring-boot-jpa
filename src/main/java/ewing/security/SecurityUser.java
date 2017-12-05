@@ -2,7 +2,6 @@ package ewing.security;
 
 import ewing.entity.Permission;
 import ewing.entity.User;
-import ewing.user.PermissionTree;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
@@ -16,7 +15,7 @@ public class SecurityUser extends User implements UserDetails {
 
     private List<RoleAsAuthority> authorities;
 
-    private List<PermissionTree> permissions;
+    private List<Permission> permissions;
 
     /**
      * Authority相当于角色。
@@ -36,7 +35,7 @@ public class SecurityUser extends User implements UserDetails {
      * 根据权限编码获取用户权限。
      */
     public Permission getPermissionByCode(String code) {
-        for (PermissionTree permission : permissions) {
+        for (Permission permission : permissions) {
             if (permission.getCode().equals(code)) {
                 return permission;
             }
@@ -77,11 +76,11 @@ public class SecurityUser extends User implements UserDetails {
         return true;
     }
 
-    public List<PermissionTree> getPermissions() {
+    public List<Permission> getPermissions() {
         return permissions;
     }
 
-    public void setPermissions(List<PermissionTree> permissions) {
+    public void setPermissions(List<Permission> permissions) {
         this.permissions = permissions;
     }
 }

@@ -2,6 +2,7 @@ package ewing.user;
 
 import ewing.application.paging.Pager;
 import ewing.application.paging.Pages;
+import ewing.entity.Permission;
 import ewing.entity.User;
 import ewing.security.RoleAsAuthority;
 import ewing.security.SecurityUser;
@@ -27,5 +28,5 @@ public interface UserService {
 
     List<RoleAsAuthority> getUserRoles(Long userId);
 
-    List<PermissionTree> getUserPermissions(Long userId);
+    List<Permission> getUserPermissions(Long userId);
 }

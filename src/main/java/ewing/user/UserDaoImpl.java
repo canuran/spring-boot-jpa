@@ -1,23 +1,76 @@
 package ewing.user;
 
-import ewing.entity.User;
+import com.querydsl.jpa.JPQLQuery;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import ewing.application.QueryHelper;
+import ewing.application.paging.Pager;
+import ewing.application.paging.Pages;
+import ewing.entity.*;
+import ewing.security.RoleAsAuthority;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import java.util.List;
 
 /**
  * User数据库访问实现类，非必须，仅当逻辑非常复杂时才需要。
  */
-public class UserDaoImpl {
+@Repository
+public class UserDaoImpl implements UserDao {
 
-    @PersistenceContext
-    private EntityManager entityManager;
+    @Autowired
+    private JPAQueryFactory queryFactory;
 
-    public User customFindUser(Long id) {
-        System.out.println("customFindUser:" + id);
-        return (User) entityManager
-                .createQuery("select u from User u where u.id = :id")
-                .setParameter("id", id)
-                .getSingleResult();
+    private QUser qUser = QUser.user;
+    private QUserRole qUserRole = QUserRole.userRole;
+    private QRole qRole = QRole.role;
+    private QUserPermission qUserPermission = QUserPermission.userPermission;
+    private QRolePermission qRolePermission = QRolePermission.rolePermission;
+    private QPermission qPermission = QPermission.permission;
+
+    @Override
+    public Pages<User> findUsers(Pager pager, String name, String roleName) {
+        JPQLQuery<User> query = queryFactory.selectDistinct(qUser)
+                .from(qUser)
+                .leftJoin(qUser.userRoles, qUserRole)
+                .leftJoin(qUserRole.role, qRole)
+                .where(StringUtils.hasText(name) ? qUser.name.contains(name) : null)
+                .where(StringUtils.hasText(roleName) ? qRole.name.contains(roleName) : null);
+        return QueryHelper.queryPage(pager, query);
+    }
+
+    @Override
+    public List<RoleAsAuthority> findUserRoles(Long userId) {
+        return queryFactory.selectDistinct(
+                QueryHelper.allToBean(RoleAsAuthority.class, qRole))
+                .from(qUser)
+                .leftJoin(qUser.userRoles, qUserRole)
+                .leftJoin(qUserRole.role, qRole)
+                .where(qUser.id.eq(userId))
+                .fetch();
+    }
+
+    @Override
+    public List<Permission> findUserPermissions(Long userId) {
+        List<Permission> userPermissions = queryFactory.selectDistinct(
+                QueryHelper.allToBean(Permission.class, qPermission))
+                .from(qUser)
+                .leftJoin(qUser.userPermissions, qUserPermission)
+                .leftJoin(qUserPermission.permission, qPermission)
+                .where(qUser.id.eq(userId))
+                .fetch();
+        List<Permission> rolePermissions = queryFactory.selectDistinct(
+                QueryHelper.allToBean(Permission.class, qPermission))
+                .from(qUser)
+                .leftJoin(qUser.userRoles, qUserRole)
+                .leftJoin(qUserRole.role, qRole)
+                .leftJoin(qRole.rolePermissions, qRolePermission)
+                .leftJoin(qRolePermission.permission, qPermission)
+                .where(qUser.id.eq(userId))
+                .fetch();
+        userPermissions.removeAll(rolePermissions);
+        userPermissions.addAll(rolePermissions);
+        return userPermissions;
     }
 }

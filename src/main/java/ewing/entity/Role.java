@@ -13,8 +13,8 @@ public class Role {
     private String code;
     private Timestamp createTime;
     private Long id;
-    private Collection<RolePermission> rolePermissionsById;
-    private Collection<UserRole> userRolesById;
+    private Collection<RolePermission> rolePermissions;
+    private Collection<UserRole> userRoles;
 
     @Basic
     @Column(name = "name")
@@ -80,21 +80,21 @@ public class Role {
         return result;
     }
 
-    @OneToMany(mappedBy = "roleByRoleId")
-    public Collection<RolePermission> getRolePermissionsById() {
-        return rolePermissionsById;
+    @OneToMany(mappedBy = "role")
+    public Collection<RolePermission> getRolePermissions() {
+        return rolePermissions;
     }
 
-    public void setRolePermissionsById(Collection<RolePermission> rolePermissionsById) {
-        this.rolePermissionsById = rolePermissionsById;
+    public void setRolePermissions(Collection<RolePermission> rolePermissions) {
+        this.rolePermissions = rolePermissions;
     }
 
-    @OneToMany(mappedBy = "roleByRoleId")
-    public Collection<UserRole> getUserRolesById() {
-        return userRolesById;
+    @OneToMany(mappedBy = "role")
+    public Collection<UserRole> getUserRoles() {
+        return userRoles;
     }
 
-    public void setUserRolesById(Collection<UserRole> userRolesById) {
-        this.userRolesById = userRolesById;
+    public void setUserRoles(Collection<UserRole> userRoles) {
+        this.userRoles = userRoles;
     }
 }

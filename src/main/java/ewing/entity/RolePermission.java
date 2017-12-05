@@ -14,8 +14,8 @@ public class RolePermission implements Serializable {
     private Long roleId;
     private Long permissionId;
     private Timestamp createTime;
-    private Role roleByRoleId;
-    private Permission permissionByPermissionId;
+    private Role role;
+    private Permission permission;
 
     @Id
     @Column(name = "role_id")
@@ -69,21 +69,21 @@ public class RolePermission implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "role_id", referencedColumnName = "id", insertable = false, updatable = false)
-    public Role getRoleByRoleId() {
-        return roleByRoleId;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoleByRoleId(Role roleByRoleId) {
-        this.roleByRoleId = roleByRoleId;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     @ManyToOne
     @JoinColumn(name = "permission_id", referencedColumnName = "id", insertable = false, updatable = false)
-    public Permission getPermissionByPermissionId() {
-        return permissionByPermissionId;
+    public Permission getPermission() {
+        return permission;
     }
 
-    public void setPermissionByPermissionId(Permission permissionByPermissionId) {
-        this.permissionByPermissionId = permissionByPermissionId;
+    public void setPermission(Permission permission) {
+        this.permission = permission;
     }
 }

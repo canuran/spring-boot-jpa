@@ -1,6 +1,7 @@
 package ewing.application.common;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -12,7 +13,7 @@ public class TreeUtils {
      * 树节点集合转换为树形结构。
      * 有父节点的挂在父节点下，未找到父结节的置于顶级。
      */
-    public static <E extends TreeNode> List<E> toTree(List<E> nodes) {
+    public static <E extends TreeNode> List<E> toTree(Collection<E> nodes) {
         if (nodes == null) {
             return null;
         }

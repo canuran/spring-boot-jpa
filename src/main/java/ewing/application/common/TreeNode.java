@@ -1,6 +1,6 @@
 package ewing.application.common;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * 树节点接口。
@@ -19,8 +19,8 @@ public interface TreeNode<E extends TreeNode, ID> {
         throw new UnsupportedOperationException("Not implemented.");
     }
 
-    List<E> getChildren();
+    Collection<E> getChildren();
 
-    void setChildren(List<E> nodes);
+    void setChildren(Collection<E> nodes);
 
 }

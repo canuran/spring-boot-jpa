@@ -1,20 +1,17 @@
 package ewing.application;
 
-import org.springframework.data.jpa.repository.support.JpaEntityInformation;
-import org.springframework.data.jpa.repository.support.JpaEntityInformationSupport;
-import org.springframework.data.jpa.repository.support.QueryDslJpaRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.querydsl.QueryDslPredicateExecutor;
+import org.springframework.data.repository.NoRepositoryBean;
 
-import javax.persistence.EntityManager;
 import java.io.Serializable;
 
 /**
- * 所有Repository的父类。
+ * 聚合多种方法的JPA接口。
  */
-public abstract class BeanRepository<E> extends QueryDslJpaRepository<E, Serializable> implements BaseRepository<E> {
-
-    public BeanRepository(Class<E> domainClass, EntityManager entityManager) {
-        super((JpaEntityInformation<E, Serializable>) JpaEntityInformationSupport
-                .getEntityInformation(domainClass, entityManager), entityManager);
-    }
+@NoRepositoryBean
+public interface BeanRepository<E>
+        extends JpaRepository<E, Serializable>,
+        QueryDslPredicateExecutor<E> {
 
 }

@@ -1,5 +1,7 @@
 package ewing.entity;
 
+import ewing.application.common.TreeNode;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Collection;
@@ -8,7 +10,7 @@ import java.util.Collection;
  * 实体类。
  */
 @Entity
-public class Permission {
+public class Permission implements TreeNode<Permission, Long> {
     private Long parentId;
     private String name;
     private String code;
@@ -16,10 +18,10 @@ public class Permission {
     private String target;
     private Timestamp createTime;
     private Long id;
-    private Permission permissionByParentId;
-    private Collection<Permission> permissionsById;
-    private Collection<RolePermission> rolePermissionsById;
-    private Collection<UserPermission> userPermissionsById;
+    private Permission parent;
+    private Collection<Permission> children;
+    private Collection<RolePermission> rolePermissions;
+    private Collection<UserPermission> userPermissions;
 
     @Basic
     @Column(name = "parent_id")
@@ -123,38 +125,38 @@ public class Permission {
 
     @ManyToOne
     @JoinColumn(name = "parent_id", referencedColumnName = "id", insertable = false, updatable = false)
-    public Permission getPermissionByParentId() {
-        return permissionByParentId;
+    public Permission getParent() {
+        return parent;
     }
 
-    public void setPermissionByParentId(Permission permissionByParentId) {
-        this.permissionByParentId = permissionByParentId;
+    public void setParent(Permission parent) {
+        this.parent = parent;
     }
 
-    @OneToMany(mappedBy = "permissionByParentId")
-    public Collection<Permission> getPermissionsById() {
-        return permissionsById;
+    @OneToMany(mappedBy = "parent")
+    public Collection<Permission> getChildren() {
+        return children;
     }
 
-    public void setPermissionsById(Collection<Permission> permissionsById) {
-        this.permissionsById = permissionsById;
+    public void setChildren(Collection<Permission> children) {
+        this.children = children;
     }
 
-    @OneToMany(mappedBy = "permissionByPermissionId")
-    public Collection<RolePermission> getRolePermissionsById() {
-        return rolePermissionsById;
+    @OneToMany(mappedBy = "permission")
+    public Collection<RolePermission> getRolePermissions() {
+        return rolePermissions;
     }
 
-    public void setRolePermissionsById(Collection<RolePermission> rolePermissionsById) {
-        this.rolePermissionsById = rolePermissionsById;
+    public void setRolePermissions(Collection<RolePermission> rolePermissions) {
+        this.rolePermissions = rolePermissions;
     }
 
-    @OneToMany(mappedBy = "permissionByPermissionId")
-    public Collection<UserPermission> getUserPermissionsById() {
-        return userPermissionsById;
+    @OneToMany(mappedBy = "permission")
+    public Collection<UserPermission> getUserPermissions() {
+        return userPermissions;
     }
 
-    public void setUserPermissionsById(Collection<UserPermission> userPermissionsById) {
-        this.userPermissionsById = userPermissionsById;
+    public void setUserPermissions(Collection<UserPermission> userPermissions) {
+        this.userPermissions = userPermissions;
     }
 }

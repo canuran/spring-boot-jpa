@@ -14,8 +14,8 @@ public class UserRole implements Serializable {
     private Long roleId;
     private Long userId;
     private Timestamp createTime;
-    private Role roleByRoleId;
-    private User userByUserId;
+    private Role role;
+    private User user;
 
     @Id
     @Column(name = "role_id")
@@ -69,21 +69,21 @@ public class UserRole implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "role_id", referencedColumnName = "id", insertable = false, updatable = false)
-    public Role getRoleByRoleId() {
-        return roleByRoleId;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoleByRoleId(Role roleByRoleId) {
-        this.roleByRoleId = roleByRoleId;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
-    public User getUserByUserId() {
-        return userByUserId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserByUserId(User userByUserId) {
-        this.userByUserId = userByUserId;
+    public void setUser(User user) {
+        this.user = user;
     }
 }

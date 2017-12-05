@@ -14,8 +14,8 @@ public class User {
     private Timestamp createTime;
     private Long id;
     private String name;
-    private Collection<UserPermission> userPermissionsById;
-    private Collection<UserRole> userRolesById;
+    private Collection<UserPermission> userPermissions;
+    private Collection<UserRole> userRoles;
 
     @Basic
     @Column(name = "password")
@@ -93,21 +93,21 @@ public class User {
         return result;
     }
 
-    @OneToMany(mappedBy = "userByUserId")
-    public Collection<UserPermission> getUserPermissionsById() {
-        return userPermissionsById;
+    @OneToMany(mappedBy = "user")
+    public Collection<UserPermission> getUserPermissions() {
+        return userPermissions;
     }
 
-    public void setUserPermissionsById(Collection<UserPermission> userPermissionsById) {
-        this.userPermissionsById = userPermissionsById;
+    public void setUserPermissions(Collection<UserPermission> userPermissions) {
+        this.userPermissions = userPermissions;
     }
 
-    @OneToMany(mappedBy = "userByUserId")
-    public Collection<UserRole> getUserRolesById() {
-        return userRolesById;
+    @OneToMany(mappedBy = "user")
+    public Collection<UserRole> getUserRoles() {
+        return userRoles;
     }
 
-    public void setUserRolesById(Collection<UserRole> userRolesById) {
-        this.userRolesById = userRolesById;
+    public void setUserRoles(Collection<UserRole> userRoles) {
+        this.userRoles = userRoles;
     }
 }
