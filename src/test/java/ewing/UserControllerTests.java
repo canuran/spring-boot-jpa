@@ -51,7 +51,7 @@ public class UserControllerTests {
                 .param("password", "碧瑶")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.userId").isNotEmpty());
+                .andExpect(jsonPath("$.data.id").isNotEmpty());
     }
 
     @Test
