@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -40,8 +41,8 @@ public class UserServiceImpl implements UserService {
                 "用户名已被使用！");
         AppAsserts.hasText(user.getPassword(), "密码不能为空！");
 
-        if (user.getBirthday() == null) {
-            user.setBirthday(new Timestamp(System.currentTimeMillis()));
+        if (user.getCreateTime() == null) {
+            user.setCreateTime(new Date());
         }
         return userRepository.save(user);
     }
