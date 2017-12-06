@@ -7,5 +7,6 @@ public enum PermissionType {
     MENU,
     NAVIGATION,
     PAGE,
-    OPERATION
+    OPERATION,
+    INTERFACE
 }

@@ -34,7 +34,7 @@ public class User {
     }
 
     @Basic
-    @Column(name = "name", length = 64)
+    @Column(name = "name", length = 64, nullable = false)
     public String getName() {
         return name;
     }
@@ -44,7 +44,7 @@ public class User {
     }
 
     @Basic
-    @Column(name = "password", length = 32)
+    @Column(name = "password", length = 64, nullable = false)
     public String getPassword() {
         return password;
     }
@@ -54,7 +54,7 @@ public class User {
     }
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "gender", length = 16)
+    @Column(name = "gender", length = 16, nullable = false)
     public UserGender getGender() {
         return gender;
     }
@@ -74,7 +74,7 @@ public class User {
     }
 
     @Basic
-    @Column(name = "create_time")
+    @Column(name = "create_time", nullable = false)
     public Date getCreateTime() {
         return createTime;
     }

@@ -37,7 +37,7 @@ public class Permission implements TreeNode<Permission, Long> {
     }
 
     @Basic
-    @Column(name = "name", length = 128)
+    @Column(name = "name", length = 128, nullable = false)
     public String getName() {
         return name;
     }
@@ -48,7 +48,7 @@ public class Permission implements TreeNode<Permission, Long> {
 
     @Basic
     @GeneratedValue
-    @Column(name = "code", length = 64)
+    @Column(name = "code", length = 64, nullable = false)
     public String getCode() {
         return code;
     }
@@ -58,7 +58,7 @@ public class Permission implements TreeNode<Permission, Long> {
     }
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "type", length = 16)
+    @Column(name = "type", length = 16, nullable = false)
     public PermissionType getType() {
         return type;
     }
@@ -88,7 +88,7 @@ public class Permission implements TreeNode<Permission, Long> {
     }
 
     @Basic
-    @Column(name = "create_time")
+    @Column(name = "create_time", nullable = false)
     public Date getCreateTime() {
         return createTime;
     }
