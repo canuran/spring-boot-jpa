@@ -123,7 +123,7 @@ public class WebErrorController implements ErrorController {
         return "error";
     }
 
-    public static final String ERROR_PAGE = "<html>\n" +
+    private static final String ERROR_PAGE = "<html>\n" +
             "<head>\n" +
             "<meta charset='UTF-8'>\n" +
             "<title>网页出问题了</title>\n" +
