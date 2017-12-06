@@ -6,6 +6,7 @@ import ewing.application.paging.Pages;
 import ewing.entity.Permission;
 import ewing.entity.QUser;
 import ewing.entity.User;
+import ewing.entity.consts.UserGender;
 import ewing.security.RoleAsAuthority;
 import ewing.security.SecurityUser;
 import org.springframework.beans.BeanUtils;
@@ -41,6 +42,9 @@ public class UserServiceImpl implements UserService {
                 "用户名已被使用！");
         AppAsserts.hasText(user.getPassword(), "密码不能为空！");
 
+        if (user.getGender() == null) {
+            user.setGender(UserGender.SECRET);
+        }
         if (user.getCreateTime() == null) {
             user.setCreateTime(new Date());
         }

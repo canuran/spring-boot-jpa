@@ -85,6 +85,7 @@ public class User {
 
     @JsonIgnore
     @OneToMany(mappedBy = "user")
+    @org.hibernate.annotations.ForeignKey(name = "none")
     public Collection<UserPermission> getUserPermissions() {
         return userPermissions;
     }
@@ -95,6 +96,7 @@ public class User {
 
     @JsonIgnore
     @OneToMany(mappedBy = "user")
+    @org.hibernate.annotations.ForeignKey(name = "none")
     public Collection<UserRole> getUserRoles() {
         return userRoles;
     }

@@ -2,7 +2,7 @@ package ewing.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * 实体类。
@@ -13,7 +13,8 @@ import java.sql.Timestamp;
 public class UserRole implements Serializable {
     private Long roleId;
     private Long userId;
-    private Timestamp createTime;
+    private Date createTime;
+
     private Role role;
     private User user;
 
@@ -38,37 +39,18 @@ public class UserRole implements Serializable {
     }
 
     @Basic
-    @Column(name = "create_time")
-    public Timestamp getCreateTime() {
+    @Column(name = "create_time", nullable = false)
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Timestamp createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        UserRole that = (UserRole) o;
-
-        if (roleId != null ? !roleId.equals(that.roleId) : that.roleId != null) return false;
-        if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = roleId != null ? roleId.hashCode() : 0;
-        result = 31 * result + (userId != null ? userId.hashCode() : 0);
-        return result;
-    }
-
     @ManyToOne
-    @JoinColumn(name = "role_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "role_id", referencedColumnName = "id", insertable = false, updatable = false,
+            foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
     public Role getRole() {
         return role;
     }
@@ -78,12 +60,31 @@ public class UserRole implements Serializable {
     }
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false,
+            foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
     public User getUser() {
         return user;
     }
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UserRole userRole = (UserRole) o;
+
+        if (roleId != null ? !roleId.equals(userRole.roleId) : userRole.roleId != null) return false;
+        return userId != null ? userId.equals(userRole.userId) : userRole.userId == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = roleId != null ? roleId.hashCode() : 0;
+        result = 31 * result + (userId != null ? userId.hashCode() : 0);
+        return result;
     }
 }

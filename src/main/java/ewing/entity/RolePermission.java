@@ -2,7 +2,7 @@ package ewing.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * 实体类。
@@ -13,7 +13,8 @@ import java.sql.Timestamp;
 public class RolePermission implements Serializable {
     private Long roleId;
     private Long permissionId;
-    private Timestamp createTime;
+    private Date createTime;
+
     private Role role;
     private Permission permission;
 
@@ -38,13 +39,35 @@ public class RolePermission implements Serializable {
     }
 
     @Basic
-    @Column(name = "create_time")
-    public Timestamp getCreateTime() {
+    @Column(name = "create_time", nullable = false)
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Timestamp createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "role_id", referencedColumnName = "id", insertable = false, updatable = false,
+            foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "permission_id", referencedColumnName = "id", insertable = false, updatable = false,
+            foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
+    public Permission getPermission() {
+        return permission;
+    }
+
+    public void setPermission(Permission permission) {
+        this.permission = permission;
     }
 
     @Override
@@ -55,9 +78,7 @@ public class RolePermission implements Serializable {
         RolePermission that = (RolePermission) o;
 
         if (roleId != null ? !roleId.equals(that.roleId) : that.roleId != null) return false;
-        if (permissionId != null ? !permissionId.equals(that.permissionId) : that.permissionId != null) return false;
-
-        return true;
+        return permissionId != null ? permissionId.equals(that.permissionId) : that.permissionId == null;
     }
 
     @Override
@@ -65,25 +86,5 @@ public class RolePermission implements Serializable {
         int result = roleId != null ? roleId.hashCode() : 0;
         result = 31 * result + (permissionId != null ? permissionId.hashCode() : 0);
         return result;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "role_id", referencedColumnName = "id", insertable = false, updatable = false)
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "permission_id", referencedColumnName = "id", insertable = false, updatable = false)
-    public Permission getPermission() {
-        return permission;
-    }
-
-    public void setPermission(Permission permission) {
-        this.permission = permission;
     }
 }

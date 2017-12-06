@@ -98,7 +98,8 @@ public class Permission implements TreeNode<Permission, Long> {
     }
 
     @ManyToOne
-    @JoinColumn(name = "parent_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "parent_id", referencedColumnName = "id", insertable = false, updatable = false,
+            foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
     public Permission getParent() {
         return parent;
     }
@@ -108,6 +109,7 @@ public class Permission implements TreeNode<Permission, Long> {
     }
 
     @OneToMany(mappedBy = "parent")
+    @org.hibernate.annotations.ForeignKey(name = "none")
     public Collection<Permission> getChildren() {
         return children;
     }
@@ -118,6 +120,7 @@ public class Permission implements TreeNode<Permission, Long> {
 
     @JsonIgnore
     @OneToMany(mappedBy = "permission")
+    @org.hibernate.annotations.ForeignKey(name = "none")
     public Collection<RolePermission> getRolePermissions() {
         return rolePermissions;
     }
@@ -128,6 +131,7 @@ public class Permission implements TreeNode<Permission, Long> {
 
     @JsonIgnore
     @OneToMany(mappedBy = "permission")
+    @org.hibernate.annotations.ForeignKey(name = "none")
     public Collection<UserPermission> getUserPermissions() {
         return userPermissions;
     }
