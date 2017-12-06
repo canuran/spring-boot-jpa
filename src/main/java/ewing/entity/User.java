@@ -18,6 +18,7 @@ public class User {
     private Gender gender;
     private java.sql.Date birthday;
     private Date createTime;
+
     private Collection<UserPermission> userPermissions;
     private Collection<UserRole> userRoles;
 
