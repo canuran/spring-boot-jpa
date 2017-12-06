@@ -37,7 +37,7 @@ spring:
         default_batch_fetch_size: 10
         max_fetch_depth: 1
         bytecode.use_reflection_optimizer: true
-        hbm2ddl.auto: validate # 当有实体修改后使用update同步到数据库
+        hbm2ddl.auto: update # 当有实体修改后使用update同步到数据库
         generate_statistics: false
         show_sql: true
         format_sql: true

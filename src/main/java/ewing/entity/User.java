@@ -1,21 +1,21 @@
 package ewing.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import ewing.entity.consts.Gender;
+import ewing.entity.consts.UserGender;
 
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Date;
 
 /**
- * 实体类。
+ * 用户实体类。
  */
 @Entity
 public class User {
     private Long id;
     private String name;
     private String password;
-    private Gender gender;
+    private UserGender gender;
     private java.sql.Date birthday;
     private Date createTime;
 
@@ -55,11 +55,11 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "gender", length = 16)
-    public Gender getGender() {
+    public UserGender getGender() {
         return gender;
     }
 
-    public void setGender(Gender gender) {
+    public void setGender(UserGender gender) {
         this.gender = gender;
     }
 
