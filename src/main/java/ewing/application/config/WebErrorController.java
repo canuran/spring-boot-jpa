@@ -128,7 +128,7 @@ public class WebErrorController implements ErrorController {
             "<meta charset='UTF-8'>\n" +
             "<title>网页出问题了</title>\n" +
             "</head>\n" +
-            "<body style='margin:5% 30%;text-align:center;background-color:#eee'>\n" +
+            "<body style='margin:10%;text-align:center;background-color:#eee'>\n" +
             "<img src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABaCAMAAAAYVCH5AAAAGXRFWHRTb2Z0d2FyZQBB" +
             "ZG9iZSBJbWFnZVJlYWR5ccllPAAAA3FpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0i" +
             "VzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFk" +

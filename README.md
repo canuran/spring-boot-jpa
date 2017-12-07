@@ -1,5 +1,5 @@
 # Spring Boot JPA
-### Spring Boot、QueryDSL、JPA和常用框架集成为一个完整可用的案例。
+### Spring Boot、JPA & QueryDSL和常用框架集成为一个完整可用的案例。
 
 ## 集成的功能：
 Spring Framework：Spring基础框架，提供Context、Task Schedule等功能支持。  
