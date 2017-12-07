@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 实体类。
+ * 角色权限实体类。
  */
 @Entity
 @Table(name = "role_permission")
