@@ -43,7 +43,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<RoleAsAuthority> findUserRoles(Long userId) {
         return queryFactory.selectDistinct(
-                QueryHelper.allToBean(RoleAsAuthority.class, qRole))
+                QueryHelper.fitBean(RoleAsAuthority.class, qRole))
                 .from(qUser)
                 .leftJoin(qUser.userRoles, qUserRole)
                 .leftJoin(qUserRole.role, qRole)
@@ -54,14 +54,14 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<Permission> findUserPermissions(Long userId) {
         List<Permission> userPermissions = queryFactory.selectDistinct(
-                QueryHelper.allToBean(Permission.class, qPermission))
+                QueryHelper.fitBean(Permission.class, qPermission))
                 .from(qPermission)
                 .innerJoin(qPermission.userPermissions, qUserPermission)
                 .innerJoin(qUserPermission.user, qUser)
                 .where(qUser.id.eq(userId))
                 .fetch();
         List<Permission> rolePermissions = queryFactory.selectDistinct(
-                QueryHelper.allToBean(Permission.class, qPermission))
+                QueryHelper.fitBean(Permission.class, qPermission))
                 .from(qPermission)
                 .innerJoin(qPermission.rolePermissions, qRolePermission)
                 .innerJoin(qRolePermission.role, qRole)
