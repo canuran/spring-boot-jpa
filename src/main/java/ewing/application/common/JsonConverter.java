@@ -28,7 +28,7 @@ public class JsonConverter {
             objectMapper.setDateFormat(new SimpleDateFormat(DATE_TIME_FORMAT));
             return objectMapper.readValue(json, type);
         } catch (Exception e) {
-            return null;
+            throw new RuntimeException(e);
         }
     }
 
@@ -45,7 +45,7 @@ public class JsonConverter {
             objectMapper.setDateFormat(new SimpleDateFormat(DATE_TIME_FORMAT));
             return objectMapper.writeValueAsString(object);
         } catch (Exception e) {
-            return null;
+            throw new RuntimeException(e);
         }
     }
 
