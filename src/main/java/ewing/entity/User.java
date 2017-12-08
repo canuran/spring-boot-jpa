@@ -1,5 +1,6 @@
 package ewing.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import ewing.entity.consts.UserGender;
 
@@ -65,6 +66,7 @@ public class User {
 
     @Basic
     @Column(name = "birthday")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     public java.sql.Date getBirthday() {
         return birthday;
     }
