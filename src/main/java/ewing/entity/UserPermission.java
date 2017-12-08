@@ -20,7 +20,7 @@ public class UserPermission implements Serializable {
     private Permission permission;
 
     @Id
-    @Column(name = "user_id")
+    @Column(name = "user_id", length = 32)
     public BigInteger getUserId() {
         return userId;
     }

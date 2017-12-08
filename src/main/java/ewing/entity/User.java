@@ -28,8 +28,8 @@ public class User {
 
     @Id
     @GeneratedValue(generator = "GlobalIdGen")
-    @GenericGenerator(name = "GlobalIdGen",strategy = GlobalIdWorker.NAME)
-    @Column(name = "id")
+    @GenericGenerator(name = "GlobalIdGen", strategy = GlobalIdWorker.NAME)
+    @Column(name = "id", length = 32)
     public BigInteger getId() {
         return id;
     }
