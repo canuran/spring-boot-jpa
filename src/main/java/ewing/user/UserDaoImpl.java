@@ -2,6 +2,7 @@ package ewing.user;
 
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import ewing.application.BaseDao;
 import ewing.application.QueryHelper;
 import ewing.application.paging.Pager;
 import ewing.application.paging.Pages;
@@ -18,17 +19,7 @@ import java.util.List;
  * User数据库访问实现类，非必须，仅当逻辑非常复杂时才需要。
  */
 @Repository
-public class UserDaoImpl implements UserDao {
-
-    @Autowired
-    private JPAQueryFactory queryFactory;
-
-    private QUser qUser = QUser.user;
-    private QUserRole qUserRole = QUserRole.userRole;
-    private QRole qRole = QRole.role;
-    private QUserPermission qUserPermission = QUserPermission.userPermission;
-    private QRolePermission qRolePermission = QRolePermission.rolePermission;
-    private QPermission qPermission = QPermission.permission;
+public class UserDaoImpl extends BaseDao implements UserDao {
 
     @Override
     public Pages<User> findUsers(Pager pager, String name, String roleName) {
