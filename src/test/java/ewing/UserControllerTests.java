@@ -47,8 +47,8 @@ public class UserControllerTests {
     public void saveTest() throws Exception {
         mvc.perform(MockMvcRequestBuilders
                 .post("/user/addUser")
-                .param("name", "小凡")
-                .param("password", "碧瑶")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"name\":\"小凡\",\"password\":\"碧瑶\"}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.id").isNotEmpty());

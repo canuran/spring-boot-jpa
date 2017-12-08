@@ -2,9 +2,12 @@ package ewing.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import ewing.application.common.GlobalIdWorker;
 import ewing.entity.consts.UserGender;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Date;
 
@@ -13,7 +16,7 @@ import java.util.Date;
  */
 @Entity
 public class User {
-    private Long id;
+    private BigInteger id;
     private String name;
     private String password;
     private UserGender gender;
@@ -24,13 +27,14 @@ public class User {
     private Collection<UserRole> userRoles;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = "GlobalIdGen")
+    @GenericGenerator(name = "GlobalIdGen",strategy = GlobalIdWorker.NAME)
     @Column(name = "id")
-    public Long getId() {
+    public BigInteger getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(BigInteger id) {
         this.id = id;
     }
 

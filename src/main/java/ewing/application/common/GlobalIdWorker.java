@@ -1,8 +1,12 @@
 package ewing.application.common;
 
+import org.hibernate.HibernateException;
+import org.hibernate.engine.spi.SessionImplementor;
+import org.hibernate.id.IdentifierGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.net.NetworkInterface;
 import java.nio.BufferUnderflowException;
@@ -19,8 +23,12 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  * @author Ewing
  */
-public class GlobalIdWorker {
+public class GlobalIdWorker implements IdentifierGenerator {
     private static final Logger LOGGER = LoggerFactory.getLogger(GlobalIdWorker.class);
+
+    // 在注解中引用，必须为静态常量
+    public static final String NAME = "ewing.application.common.GlobalIdWorker";
+
     // 将时间截掉后6位（相当于除以64）约精确到1/16秒
     private static final int TIME_TRUNCATE = 6;
     // 机器标识24位+进程标识16位
@@ -32,10 +40,7 @@ public class GlobalIdWorker {
     // 序号标志位 第24位为1 保证序号总长度为24位
     private static final int COUNTER_FLAG = 1 << 23;
 
-    /**
-     * 私有化构造方法。
-     */
-    private GlobalIdWorker() {
+    public GlobalIdWorker() {
     }
 
     /**
@@ -63,6 +68,12 @@ public class GlobalIdWorker {
                 Integer.toBinaryString(count | COUNTER_FLAG);
 
         return new BigInteger(idBit, 2);
+    }
+
+    @Override
+    public Serializable generate(SessionImplementor sessionImplementor,
+                                 Object o) throws HibernateException {
+        return nextBigInteger();
     }
 
     /**
@@ -121,5 +132,4 @@ public class GlobalIdWorker {
         }
         return processId;
     }
-
-} 
+}

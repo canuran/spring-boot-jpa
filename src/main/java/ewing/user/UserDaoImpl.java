@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
+import java.math.BigInteger;
 import java.util.List;
 
 /**
@@ -41,7 +42,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public List<RoleAsAuthority> findUserRoles(Long userId) {
+    public List<RoleAsAuthority> findUserRoles(BigInteger userId) {
         return queryFactory.selectDistinct(
                 QueryHelper.fitBean(RoleAsAuthority.class, qRole))
                 .from(qUser)
@@ -52,7 +53,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public List<Permission> findUserPermissions(Long userId) {
+    public List<Permission> findUserPermissions(BigInteger userId) {
         List<Permission> userPermissions = queryFactory.selectDistinct(
                 QueryHelper.fitBean(Permission.class, qPermission))
                 .from(qPermission)

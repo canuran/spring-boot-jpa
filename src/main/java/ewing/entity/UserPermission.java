@@ -2,6 +2,7 @@ package ewing.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.Date;
 
 /**
@@ -11,7 +12,7 @@ import java.util.Date;
 @Table(name = "user_permission")
 @IdClass(UserPermission.class)
 public class UserPermission implements Serializable {
-    private Long userId;
+    private BigInteger userId;
     private Long permissionId;
     private Date createTime;
 
@@ -20,11 +21,11 @@ public class UserPermission implements Serializable {
 
     @Id
     @Column(name = "user_id")
-    public Long getUserId() {
+    public BigInteger getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(BigInteger userId) {
         this.userId = userId;
     }
 

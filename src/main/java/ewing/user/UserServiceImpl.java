@@ -16,6 +16,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -53,7 +54,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Cacheable(cacheNames = "UserCache", key = "#userId", unless = "#result==null")
-    public User getUser(Long userId) {
+    public User getUser(BigInteger userId) {
         AppAsserts.notNull(userId, "用户ID不能为空！");
         return userRepository.getOne(userId);
     }
@@ -74,7 +75,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @CacheEvict(cacheNames = "UserCache", key = "#userId")
-    public void deleteUser(Long userId) {
+    public void deleteUser(BigInteger userId) {
         AppAsserts.notNull(userId, "用户ID不能为空！");
         userRepository.delete(userId);
     }
@@ -89,13 +90,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<RoleAsAuthority> getUserRoles(Long userId) {
+    public List<RoleAsAuthority> getUserRoles(BigInteger userId) {
         AppAsserts.notNull(userId, "用户ID不能为空！");
         return userDao.findUserRoles(userId);
     }
 
     @Override
-    public List<Permission> getUserPermissions(Long userId) {
+    public List<Permission> getUserPermissions(BigInteger userId) {
         AppAsserts.notNull(userId, "用户ID不能为空！");
         return userDao.findUserPermissions(userId);
     }

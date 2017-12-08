@@ -6,6 +6,7 @@ import ewing.entity.Permission;
 import ewing.entity.User;
 import ewing.security.RoleAsAuthority;
 
+import java.math.BigInteger;
 import java.util.List;
 
 /**
@@ -15,8 +16,8 @@ public interface UserDao {
 
     Pages<User> findUsers(Pager pager, String name, String roleName);
 
-    List<RoleAsAuthority> findUserRoles(Long userId);
+    List<RoleAsAuthority> findUserRoles(BigInteger userId);
 
-    List<Permission> findUserPermissions(Long userId);
+    List<Permission> findUserPermissions(BigInteger userId);
 
 }

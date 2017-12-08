@@ -5,11 +5,11 @@ import ewing.application.paging.Pager;
 import ewing.application.paging.Pages;
 import ewing.entity.User;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.math.BigInteger;
 
 /**
  * 用户控制器。
@@ -37,7 +37,7 @@ public class UserController {
 
     @GetMapping("/getUser")
     @ApiOperation("根据ID获取用户")
-    public ResultMessage<User> getUser(Long userId) {
+    public ResultMessage<User> getUser(BigInteger userId) {
         return new ResultMessage<>(userService.getUser(userId));
     }
 
@@ -50,7 +50,7 @@ public class UserController {
 
     @GetMapping("/deleteUser")
     @ApiOperation("根据ID删除用户")
-    public ResultMessage deleteUser(Long userId) {
+    public ResultMessage deleteUser(BigInteger userId) {
         userService.deleteUser(userId);
         return new ResultMessage();
     }
