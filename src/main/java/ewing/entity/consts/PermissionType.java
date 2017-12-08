@@ -10,7 +10,8 @@ public enum PermissionType implements AliasName {
     NAVIGATION("导航"),
     PAGE("页面"),
     OPERATION("操作"),
-    INTERFACE("接口");
+    INTERFACE("接口"),
+    TARGET("资源");
 
     private String alias;
 
