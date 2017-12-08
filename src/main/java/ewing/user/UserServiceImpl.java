@@ -33,7 +33,6 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDao userDao;
-    private QUser qUser = QUser.user;
 
     @Override
     public User addUser(User user) {
