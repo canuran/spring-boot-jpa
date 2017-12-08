@@ -33,16 +33,17 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDao userDao;
+    private QUser qUser = QUser.user;
 
     @Override
     public User addUser(User user) {
         AppAsserts.notNull(user, "用户不能为空！");
         AppAsserts.hasText(user.getName(), "用户名不能为空！");
-        AppAsserts.isTrue(userRepository.count(
-                QUser.user.name.eq(user.getName())) < 1,
+        AppAsserts.isTrue(userRepository
+                        .count(qUser.name.eq(user.getName())) < 1,
                 "用户名已被使用！");
         AppAsserts.hasText(user.getPassword(), "密码不能为空！");
-
+        // 初始化默认值
         if (user.getGender() == null) {
             user.setGender(UserGender.SECRET);
         }

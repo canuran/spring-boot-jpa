@@ -23,3 +23,8 @@ Spring Test：使用MockMvc进行测试用例编写。
 
 ##### 注：修改 application.yml 中的数据库连接信息，执行 src/main/resources/firstdata.sql 文件。
 ##### 注：先执行 maven compile（生成 QUser 等对象）后再运行，QUser 等对象默认在 target 下不用动它。
+
+##### JPA规范建议：
+禁止使用无法在编译和启动时校验的字段名、表名、查询语句或片段，例如本地SQL和方法体中的JPQL或HQL，避免维护时导致潜在错误。  
+优先使用BeanRepository中的方法，可传入根据参数动态生成的QueryDSL条件，复杂查询需要新建接口使用QueryDSL来实现。   
+应当使用可直接生成表结构的精确配置的实体类，减少因增加字段和表的维护工作量，所有表包括关联表都应当创建实体类。  
