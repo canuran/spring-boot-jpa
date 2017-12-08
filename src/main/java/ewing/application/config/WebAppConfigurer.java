@@ -49,6 +49,8 @@ public class WebAppConfigurer extends WebMvcConfigurerAdapter {
                                   SerializerProvider serializerProvider) throws IOException {
                 if (number instanceof BigInteger || number instanceof BigDecimal) {
                     jsonGenerator.writeString(number.toString());
+                } else if (number == null) {
+                    jsonGenerator.writeNull();
                 } else {
                     jsonGenerator.writeNumber(number.toString());
                 }
