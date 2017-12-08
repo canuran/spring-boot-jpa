@@ -19,11 +19,11 @@ public abstract class BaseDao {
     protected EntityManager entityManager;
 
     // 所有实体类查询对象集中定义管理
-    protected QUser qUser = QUser.user;
-    protected QUserRole qUserRole = QUserRole.userRole;
-    protected QRole qRole = QRole.role;
-    protected QUserPermission qUserPermission = QUserPermission.userPermission;
-    protected QRolePermission qRolePermission = QRolePermission.rolePermission;
-    protected QPermission qPermission = QPermission.permission;
+    protected static final QUser qUser = QUser.user;
+    protected static final QUserRole qUserRole = QUserRole.userRole;
+    protected static final QRole qRole = QRole.role;
+    protected static final QUserPermission qUserPermission = QUserPermission.userPermission;
+    protected static final QRolePermission qRolePermission = QRolePermission.rolePermission;
+    protected static final QPermission qPermission = QPermission.permission;
 
 }
