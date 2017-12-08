@@ -80,7 +80,7 @@ public class GlobalIdWorker implements IdentifierGenerator {
      * 获取36进制的String类型的ID。
      */
     public static String nextString() {
-        return nextBigInteger().toString(36);
+        return nextBigInteger().toString(36).toUpperCase();
     }
 
     /**
