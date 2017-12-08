@@ -5,7 +5,7 @@ package ewing.application.common;
  */
 public interface AliasName {
 
-    Object name();
+    String name();
 
     String alias();
 

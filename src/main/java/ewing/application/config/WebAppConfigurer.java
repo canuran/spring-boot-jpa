@@ -37,7 +37,7 @@ public class WebAppConfigurer extends WebMvcConfigurerAdapter {
     private MappingJackson2HttpMessageConverter converter;
 
     /**
-     * 配置。
+     * 注册Jackson配置。
      */
     @PostConstruct
     public void registerJsonModule() {
