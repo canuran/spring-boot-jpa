@@ -13,6 +13,7 @@ import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,12 +32,15 @@ public class QueryHelper {
      * 使用分页参数和查询对象进行分页查询。
      */
     public static <T> Pages<T> queryPage(Pager pager, JPQLQuery<T> query) {
-        if (pager == null) {
-            query.limit(100).offset(0);
+        Pages<T> pages = new Pages<>();
+        pages.setTotal(query.fetchCount());
+        if (pages.getTotal() < 1 || pages.getTotal() < pager.getOffset()) {
+            // 一条也没有或超出总数范围则返回空集
+            return pages.setContent(Collections.emptyList());
         } else {
-            query.limit(pager.getLimit()).offset(pager.getOffset());
+            return pages.setContent(query.limit(pager.getLimit())
+                    .offset(pager.getOffset()).fetch());
         }
-        return new Pages<>(query.fetchCount(), query.fetch());
     }
 
     /**
