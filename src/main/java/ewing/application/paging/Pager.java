@@ -41,6 +41,6 @@ public class Pager {
     }
 
     public Pageable pageable() {
-        return new PageRequest(page > 0 ? page - 1 : 0, limit);
+        return new PageRequest(page - 1, limit);
     }
 }
