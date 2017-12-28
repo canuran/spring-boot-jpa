@@ -11,6 +11,8 @@ sslserver:
 
 # 启用Swagger
 swagger.enable: true
+# 方法日志配置
+appMethodLogger.enable: true
 
 # Spring配置
 spring:
