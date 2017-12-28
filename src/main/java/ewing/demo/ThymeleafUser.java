@@ -35,14 +35,14 @@ public class ThymeleafUser {
         return modelAndView;
     }
 
-    @PostMapping("addUser")
+    @PostMapping("/addUser")
     @PreAuthorize("hasRole('ROLE_USER')")
     public ModelAndView addUser(@ModelAttribute User user) {
         userService.addUser(user);
         return index();
     }
 
-    @GetMapping("deleteUser")
+    @GetMapping("/deleteUser")
     @PreAuthorize("hasRole('ROLE_USER')")
     public ModelAndView deleteUser(BigInteger userId) {
         userService.deleteUser(userId);
